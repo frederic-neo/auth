@@ -9,5 +9,10 @@
 	"blockNamingStrategyFnArgs": [
 		"original",
 		"lastTried"
-	]
+	],
+	"defaultBranch": "main",
+	"localGitName": "frederic-neo",
+	"localGitEmail": "frederic@neoito.com",
+	"currentSpaceName": "4sXpC3Wsc34g16QgDVRuG",
+	"currentSpaceId": "9BkgVNd-8meQAkJFnHY7i"
 }

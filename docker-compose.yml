@@ -9,44 +9,30 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=auth
     ports:
-      - '5433:5432'
+      - '5432:5432'
 
   redis:
     image: redis:latest
     container_name: redis_container
     ports:
-      - '6380:6379'
+      - '6379:6379'
 
-  backend:
-    image: appblocks_1.0.0_nodejs:latest
-    container_name: backend_container
-    working_dir: /app
+  app:
+    build: .
+    working_dir: /app/preview
     command: './startup.sh'
     env_file:
       - .env.function
+      - .env.view
     ports:
       - 5000:5000
     volumes:
-      - ../auth:/app
+      - ./:/app/preview
+      - /usr/share/container_build:/app/preview/._bb_/container_build
+      - /usr/share/elements_build:/app/preview/._bb_/elements_emulator/dist
     depends_on:
       - postgres
       - redis
-
-  frontend:
-    image: appblocks_1.0.0_nodejs:latest
-    container_name: frontend_container
-    working_dir: /app
-    command: >
-      sh -c "bb start -bt ui && tail -f /dev/null"
-    env_file:
-      - .env.view
-    ports:
-      - 3000:3000
-      - 4000:4000
-    volumes:
-      - ../auth:/app
-    depends_on:
-      - backend
 
 volumes:
   cache:
