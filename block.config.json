@@ -16,5 +16,7 @@
     "1.0.0"
   ],
   "isPublic": false,
-  "start": "node index.js"
+  "start": "node index.js",
+  "version": "0.0.1",
+  "versionId": "YHeNnbU7vPqEwlbQKpKz3"
 }
