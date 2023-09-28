@@ -1,0 +1,16 @@
+{
+  "blockId": "PIVLo-uyZ6K34OUTVSUzS",
+  "name": "auth_be_send_otp_for_verification",
+  "type": "function",
+  "source": {
+    "https": null,
+    "ssh": null,
+    "branch": "block_auth_be_send_otp_for_verification"
+  },
+  "parentBlockIDs": ["mr4XJ9awPyKpXhGJiTnkK"],
+  "repoType": "mono",
+  "language": "nodejs",
+  "supportedAppblockVersions": ["1.0.0"],
+  "isPublic": false,
+  "start": "node index.js"
+}

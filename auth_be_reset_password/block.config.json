@@ -1,0 +1,16 @@
+{
+  "blockId": "iTbujqEvjZQpvODs4jXwp",
+  "name": "auth_be_reset_password",
+  "type": "function",
+  "source": {
+    "https": null,
+    "ssh": null,
+    "branch": "block_auth_be_reset_password"
+  },
+  "parentBlockIDs": ["mr4XJ9awPyKpXhGJiTnkK"],
+  "repoType": "mono",
+  "language": "nodejs",
+  "supportedAppblockVersions": ["1.0.0"],
+  "isPublic": false,
+  "start": "node index.js"
+}

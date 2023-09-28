@@ -1,0 +1,16 @@
+{
+  "blockId": "orHvS3tYiJbSsnuiCrfsP",
+  "name": "auth_be_forgot_password",
+  "type": "function",
+  "source": {
+    "https": null,
+    "ssh": null,
+    "branch": "block_auth_be_forgot_password"
+  },
+  "parentBlockIDs": ["mr4XJ9awPyKpXhGJiTnkK"],
+  "repoType": "mono",
+  "language": "nodejs",
+  "supportedAppblockVersions": ["1.0.0"],
+  "isPublic": false,
+  "start": "node index.js"
+}

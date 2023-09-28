@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("BB_AUTH_DATABASE_URL")
+}
+
+model admin_users {
+  id          String    @id @default(uuid())
+  user_name   String    @unique
+  email       String    @unique
+  role        String
+  full_name   String
+  password    String
+  is_verified Boolean
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @updatedAt
+}
