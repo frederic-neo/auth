@@ -1,0 +1,7 @@
+{
+  "apiLogs": {
+    "non_available_block_names": {},
+    "error": false,
+    "message": "Blocks synced successfully with db"
+  }
+}
