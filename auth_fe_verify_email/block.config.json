@@ -3,14 +3,18 @@
   "name": "auth_fe_verify_email",
   "type": "ui-elements",
   "source": {
-    "https": null,
-    "ssh": null,
+    "https": "https://github.com/frederic-neo/auth.git",
+    "ssh": "git@github.com:frederic-neo/auth.git",
     "branch": "block_auth_fe_verify_email"
   },
-  "parentBlockIDs": ["mr4XJ9awPyKpXhGJiTnkK"],
+  "parentBlockIDs": [
+    "mr4XJ9awPyKpXhGJiTnkK"
+  ],
   "repoType": "mono",
   "language": "js",
-  "supportedAppblockVersions": ["1.0.0"],
+  "supportedAppblockVersions": [
+    "1.0.0"
+  ],
   "isPublic": false,
   "start": "npx webpack-dev-server",
   "build": "npx webpack"

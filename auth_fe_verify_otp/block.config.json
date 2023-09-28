@@ -3,11 +3,13 @@
   "name": "auth_fe_verify_otp",
   "type": "ui-elements",
   "source": {
-    "https": null,
-    "ssh": null,
+    "https": "https://github.com/frederic-neo/auth.git",
+    "ssh": "git@github.com:frederic-neo/auth.git",
     "branch": "block_auth_fe_verify_otp"
   },
-  "parentBlockIDs": ["mr4XJ9awPyKpXhGJiTnkK"],
+  "parentBlockIDs": [
+    "mr4XJ9awPyKpXhGJiTnkK"
+  ],
   "repoType": "mono",
   "language": "js",
   "supportedAppblockVersions": [

@@ -3,11 +3,13 @@
   "name": "auth_be_signup",
   "type": "function",
   "source": {
-    "https": null,
-    "ssh": null,
+    "https": "https://github.com/frederic-neo/auth.git",
+    "ssh": "git@github.com:frederic-neo/auth.git",
     "branch": "block_auth_be_signup"
   },
-  "parentBlockIDs": ["mr4XJ9awPyKpXhGJiTnkK"],
+  "parentBlockIDs": [
+    "mr4XJ9awPyKpXhGJiTnkK"
+  ],
   "repoType": "mono",
   "language": "nodejs",
   "supportedAppblockVersions": [

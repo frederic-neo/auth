@@ -3,14 +3,18 @@
   "name": "auth_be_send_otp_for_verification",
   "type": "function",
   "source": {
-    "https": null,
-    "ssh": null,
+    "https": "https://github.com/frederic-neo/auth.git",
+    "ssh": "git@github.com:frederic-neo/auth.git",
     "branch": "block_auth_be_send_otp_for_verification"
   },
-  "parentBlockIDs": ["mr4XJ9awPyKpXhGJiTnkK"],
+  "parentBlockIDs": [
+    "mr4XJ9awPyKpXhGJiTnkK"
+  ],
   "repoType": "mono",
   "language": "nodejs",
-  "supportedAppblockVersions": ["1.0.0"],
+  "supportedAppblockVersions": [
+    "1.0.0"
+  ],
   "isPublic": false,
   "start": "node index.js"
 }
