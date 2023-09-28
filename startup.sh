@@ -1,4 +1,5 @@
 #!/bin/sh
+bb start -bo -env preview 
 
 # Navigate to the schema folder
 cd ./auth_be_shared
@@ -9,4 +10,4 @@ npx prisma db push
 # Navigate back to the original directory
 cd -
 
-bb start -bo -env preview && tail -f /dev/null"
+ tail -f /dev/null
