@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=auth
+      - POSTGRES_DB=postgres
     ports:
       - '5432:5432'
 
@@ -24,9 +24,10 @@ services:
       - sh
       - -c
       - |
-        bb start -bo -env preview 
+        bb start -bo -env preview -pm2
         cd ./auth_be_shared
         npx prisma db push
+        npx prisma generate
         tail -f /dev/null
     ports:
       - 5000:5000
