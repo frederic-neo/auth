@@ -1,18 +1,14 @@
 {
-	"appblockVersion": [
-		"1.0.0"
-	],
-	"gitTarget": "my git",
-	"gitVisibility": "PUBLIC",
-	"gitDescription": "",
-	"blockNamingStrategyFnBody": "let i = 0;if (original !== lastTried){ i = parseInt(lastTried.split('_').pop(), 10)};return `${original}_${i + 1}`",
-	"blockNamingStrategyFnArgs": [
-		"original",
-		"lastTried"
-	],
-	"defaultBranch": "main",
-	"localGitName": "frederic-neo",
-	"localGitEmail": "frederic@neoito.com",
-	"currentSpaceName": "4sXpC3Wsc34g16QgDVRuG",
-	"currentSpaceId": "9BkgVNd-8meQAkJFnHY7i"
+  "appblockVersion": ["1.0.0"],
+  "gitTarget": "my git",
+  "gitVisibility": "PUBLIC",
+  "gitDescription": "",
+  "blockNamingStrategyFnBody": "let i = 0;if (original !== lastTried){ i = parseInt(lastTried.split('_').pop(), 10)};return `${original}_${i + 1}`",
+  "blockNamingStrategyFnArgs": ["original", "lastTried"],
+  "defaultBranch": "main",
+  "localGitName": "frederic-neo",
+  "localGitEmail": "frederic@neoito.com",
+  "currentSpaceName": "4sXpC3Wsc34g16QgDVRuG",
+  "currentSpaceId": "9BkgVNd-8meQAkJFnHY7i",
+  "prismaSchemaFolderPath": "auth_be_shared/prisma"
 }
