@@ -49,23 +49,23 @@ const handler = async (event) => {
       const otp = await redis.get(`${user.id}_otp`)
       await redis.disconnect()
 
-      if (otp == requestBody.otp) {
+      if (otp !== requestBody.otp) {
         return sendResponse(res, 400, {
           message: 'Invalid OTP. Please try again or generate new otp',
         })
       }
 
-      if (otp == requestBody.otp) {
-        const updatedUser = await prisma.admin_users.update({
-          where: {
-            id: user.id,
-          },
-          data: {
-            is_verified: true,
-            updated_at: new Date(),
-          },
-        })
+      const updatedUser = await prisma.admin_users.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          is_verified: true,
+          updated_at: new Date(),
+        },
+      })
 
+      if (updatedUser) {
         const userAuthToken = generateRandomString(32)
         // Store the otp with an expiry stored in env.function in seconds
         if (!redis.isOpen) await redis.connect()

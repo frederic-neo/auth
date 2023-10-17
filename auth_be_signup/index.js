@@ -51,7 +51,7 @@ const handler = async ({ req, res }) => {
     const adminu = {
       id: nanoid(),
       full_name: requestBody.first_name + ' ' + requestBody.last_name,
-      user_name: requestBody.first_name + requestBody.last_name,
+      user_name: requestBody.first_name + '_' + requestBody.last_name,
       email: requestBody.email,
       password,
       role: 'admin',
@@ -78,7 +78,7 @@ const handler = async ({ req, res }) => {
         name: process.env.EMAIL_SENDER_NAME,
         email: process.env.SENDER_EMAIL_ID,
       },
-      subject: 'verify otp',
+      subject: 'Your Email OTP to Login to your Appblocks account',
       text: 'Please verify your otp',
       html: emailTemplate({
         logo: process.env.LOGO_URL,

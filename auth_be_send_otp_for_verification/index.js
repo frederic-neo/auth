@@ -59,7 +59,7 @@ const handler = async (event) => {
         name: process.env.BB_AUTH_MAILER_NAME,
         email: process.env.BB_AUTH_MAILER_EMAIL,
       },
-      subject: 'Verify OTP',
+      subject: 'Your Email OTP to Login to your Appblocks account',
       text: 'Please verify your otp',
       html: emailTemplate({
         logo: process.env.BB_AUTH_LOGO_URL,
