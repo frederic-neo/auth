@@ -32,45 +32,53 @@ const handler = async (event) => {
       })
     }
 
-    const user = await prisma.admin_users.findFirst({
+    const user_account = await prisma.user_account.findFirst({
       where: {
         email: requestBody.email,
       },
+      include: { user: true },
     })
 
-    if (!user) {
+    if (!user_account) {
       return sendResponse(res, 400, {
         message: 'Invalid User ID',
       })
     }
-
     const otp = generateRandomString()
 
     // Store the otp with an expiry stored in env.function in seconds
     if (!redis.isOpen) await redis.connect()
-    await redis.set(`${user.id}_otp`, otp, { EX: 600 })
+    await redis.set(`${user_account.id}_otp`, otp, {
+      EX: Number(process.env.BB_AUTH_OTP_EXPIRY_TIME_IN_SECONDS),
+    })
     await redis.disconnect()
 
     const emailTemplate = hbs.compile(otpTemp)
+    const { user } = user_account
 
     const message = {
-      to: user.email,
+      to: user_account.email,
       from: {
         name: process.env.BB_AUTH_MAILER_NAME,
         email: process.env.BB_AUTH_MAILER_EMAIL,
       },
-      subject: 'Verify OTP',
+      subject: 'Your Email OTP to Login to your Appblocks account',
       text: 'Please verify your otp',
       html: emailTemplate({
         logo: process.env.BB_AUTH_LOGO_URL,
-        user: user.full_name,
+        user: user.first_name,
         otp,
       }),
     }
     await sendMail(message)
 
     return sendResponse(res, 200, {
-      data: { user_id: user.id, email: user.email, name: user.full_name },
+      data: {
+        user_id: user.id,
+        user_account_id: user_account.id,
+        email: user_account.email,
+        name: user.first_name,
+      },
       message:
         'We have sent you an email containing One time password to registered email',
     })
