@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { lazy } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Outlet, Link } from 'react-router-dom'
 import { PublicRoute } from './PublicRoute'
 import PrivateRoute from './PrivateRoute'
 import Dashboard from './DashBoard'
@@ -15,7 +15,7 @@ const {
   VERIFY_OTP,
 } = url_constants
 
-const RouterMain = () => {
+const AuthRouter = () => {
   const Login = lazy(() => import('../federated_components/login/login'))
   const ForgotPassword = lazy(() =>
     import('../federated_components/forgot-password/forgot-password')
@@ -34,14 +34,6 @@ const RouterMain = () => {
   return (
     <>
       <Routes>
-        <Route
-          path='/'
-          element={
-            <PrivateRoute redirect='/login'>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
         <Route
           path={LOGIN}
           element={
@@ -94,8 +86,9 @@ const RouterMain = () => {
           }
         />
       </Routes>
+      <Outlet />
     </>
   )
 }
 
-export default RouterMain
+export default AuthRouter
