@@ -2,6 +2,34 @@ import { shared } from '@appblocks/node-sdk'
 import { compare } from 'bcrypt'
 import { hash, genSalt } from 'bcrypt'
 
+/**
+ * @swagger
+ * /auth_be_reset_password:
+ *   put:
+ *     summary: Reset password for an existing user
+ *     description: Reset password for an existing user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_auth_token:
+ *                 type: string
+ *                 description: The user's auth token received from verify otp api
+ *                 example: 5APZC8fAryDf8PnOtgvWcdS429Jel60d
+ *               new_password:
+ *                 type: string
+ *                 description: The user's  new password
+ *                 example: TestPassword@97
+ *     responses:
+ *       '201':
+ *         description: Created
+ *       '200':
+ *         description: Ok
+ */
+
 const handler = async (event) => {
   const { req, res } = event
 
@@ -35,10 +63,10 @@ const handler = async (event) => {
     const { user_auth_token, new_password } = requestBody
 
     if (!redis.isOpen) await redis.connect()
-    const user_id = await redis.get(user_auth_token)
+    const user_account_id = await redis.get(user_auth_token)
     await redis.disconnect()
 
-    if (!user_id) {
+    if (!user_account_id) {
       return sendResponse(res, 400, {
         message: 'Provided auth token does not exist.',
       })
@@ -55,48 +83,48 @@ const handler = async (event) => {
       return passwordPattern.test(password)
     }
 
-    const user = await prisma.admin_users.findFirst({
+    const user_account = await prisma.user_account.findFirst({
       where: {
-        id: user_id,
+        id: user_account_id,
       },
     })
 
-    if (!isPasswordValid(new_password)) {
+    if (!user_account) {
       return sendResponse(res, 400, {
-        message: 'Please provide a valid password.',
+        message: 'User account does not exist for the provided auth token.',
       })
     }
 
-    if (!user) {
-      return sendResponse(res, 400, {
-        message: 'User does not exist for the provided auth token.',
-      })
-    } else if (!isPasswordValid(new_password)) {
+    if (!isPasswordValid(new_password)) {
       return sendResponse(res, 400, {
         message: 'Please provide a valid password',
       })
-    } else if (await compare(new_password, user.password)) {
+    }
+
+    if (await compare(new_password, user_account.password_hash)) {
       return sendResponse(res, 400, {
         message: 'New password cannot be the same as the previous password.',
       })
-    } else {
-      const salt = await genSalt(10)
-      const newPassword = await hash(new_password, salt)
-      const updatedUser = await prisma.admin_users.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          password: newPassword,
-          is_verified: true,
-          updated_at: new Date(),
-        },
+    }
+
+    const password_salt = await genSalt(10)
+    const password_hash = await hash(new_password, password_salt)
+    const updatedUserAccount = await prisma.user_account.update({
+      where: {
+        id: user_account.id,
+      },
+      data: {
+        password_salt,
+        password_hash,
+        is_email_verified: true,
+        updated_at: new Date(),
+      },
+    })
+
+    if (!updatedUserAccount) {
+      return sendResponse(res, 400, {
+        message: 'Failed to update new password',
       })
-      if (!updatedUser) {
-        return sendResponse(res, 400, {
-          message: 'Failed to update new password',
-        })
-      }
     }
 
     return sendResponse(res, 200, {
