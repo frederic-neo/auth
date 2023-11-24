@@ -2,6 +2,34 @@ import { compare } from 'bcrypt'
 import { shared, env } from '@appblocks/node-sdk'
 import jwt from 'jsonwebtoken'
 
+/**
+ * @swagger
+ * /auth_be_login:
+ *   post:
+ *     summary: Login for a new user
+ *     description: Login for a new user.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The user's email
+ *                 example: memberUser4@mailinator.com
+ *               password:
+ *                 type: string
+ *                 description: The user's password
+ *                 example: Password@97
+ *     responses:
+ *       '201':
+ *         description: Created
+ *       '200':
+ *         description: Ok
+ */
+
 // env.init()
 const handler = async ({ req, res }) => {
   const {
@@ -27,21 +55,24 @@ const handler = async ({ req, res }) => {
       })
     }
 
-    const user = await prisma.admin_users.findFirst({
+    const user_account = await prisma.user_account.findFirst({
       where: {
         email: requestBody.email,
       },
+      include: { user: true },
     })
 
-    if (!user) {
+    if (!user_account) {
       return sendResponse(res, 400, {
         message: 'Invalid email/password',
       })
     }
 
+    const { user } = user_account
+
     const isPasswordMatching = await compare(
       requestBody.password,
-      user.password
+      user_account.password_hash
     ).catch(() => false)
 
     if (!isPasswordMatching) {
@@ -51,23 +82,21 @@ const handler = async ({ req, res }) => {
       })
     }
 
-    if (isPasswordMatching && !user?.is_verified) {
+    if (isPasswordMatching && !user_account.is_email_verified) {
       return sendResponse(res, 403, {
         data: {
           user_id: user.id,
-          isVerified: user.is_verified,
+          is_email_verified: user_account.is_email_verified,
         },
         message: 'User is not Verified.',
       })
     }
 
     const tokenGenerate = {
-      full_name: user.full_name,
-      user_name: user.user_name,
+      first_name: user.first_name,
       id: user.id,
-      email: user.email,
-      isVerified: user.is_verified,
-      role: user.role,
+      email: user_account.email,
+      is_email_verified: user_account.is_email_verified,
     }
 
     const secretKey = process.env.BB_AUTH_SECRET_KEY
