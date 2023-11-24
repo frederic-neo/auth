@@ -1,9 +1,8 @@
-import { hash } from 'bcrypt'
+import { hash, genSalt } from 'bcrypt'
 import { shared, env } from '@appblocks/node-sdk'
-import otpTemp from './templates/otp-temp.js'
 import hbs from 'hbs'
+import otpTemp from './templates/otp-temp.js'
 import validateSignupInput from './validation.js'
-import { nanoid } from 'nanoid'
 
 env.init()
 
@@ -18,7 +17,6 @@ const handler = async ({ req, res }) => {
     generateRandomString,
     sendMail,
     redis,
-    httpStatusCodes,
   } = await shared.getShared()
 
   try {
@@ -30,44 +28,62 @@ const handler = async ({ req, res }) => {
     const requestBody = await getBody(req)
 
     if (isEmpty(requestBody)) {
-      return sendResponse(res, 400, {
+      sendResponse(res, 400, {
         message: 'Please provide the details',
       })
+      return
     }
 
     validateSignupInput(requestBody)
 
-    const emailValid = await prisma.admin_users.findFirst({
+    const emailValid = await prisma.user_account.findFirst({
       where: { email: requestBody.email },
     })
 
     if (emailValid) {
-      return sendResponse(res, 400, {
+      sendResponse(res, 400, {
         message: 'This email is already in use',
       })
+      return
     }
 
-    const password = await hash(requestBody.password, 10)
-    const adminu = {
-      id: nanoid(),
-      full_name: requestBody.first_name + ' ' + requestBody.last_name,
-      user_name: requestBody.first_name + '_' + requestBody.last_name,
-      email: requestBody.email,
-      password,
-      role: 'admin',
-      is_verified: false,
+    const password_salt = await genSalt(10)
+    const password_hash = await hash(requestBody.password, password_salt)
+
+    const user = {
+      first_name: requestBody.first_name,
+      last_name: requestBody.last_name,
+      display_name: `${requestBody.first_name} ${requestBody.last_name}`,
       created_at: new Date(),
       updated_at: new Date(),
     }
-    console.log(adminu)
 
-    const user = await prisma.admin_users.create({
-      data: adminu,
+    const user_account = {
+      email: requestBody.email,
+      password_salt,
+      password_hash,
+      is_email_verified: false,
+      created_at: new Date(),
+      updated_at: new Date(),
+      provider: 'password',
+    }
+
+    let user_account_id = null
+    await prisma.$transaction(async (tx) => {
+      const userData = await tx.user.create({
+        data: user,
+      })
+      const userAccData = await tx.user_account.create({
+        data: { ...user_account, user_id: userData.id },
+      })
+      user_account_id = userAccData.id
     })
 
     const otp = generateRandomString()
     if (!redis.isOpen) await redis.connect()
-    await redis.set(`${user.id}_otp`, otp, { EX: 600 })
+    await redis.set(`${user_account_id}_otp`, otp, {
+      EX: Number(process.env.BB_AUTH_OTP_EXPIRY_TIME_IN_SECONDS),
+    })
     await redis.disconnect()
 
     const emailTemplate = hbs.compile(otpTemp)
@@ -82,7 +98,7 @@ const handler = async ({ req, res }) => {
       text: 'Please verify your otp',
       html: emailTemplate({
         logo: process.env.LOGO_URL,
-        user: adminu.full_name,
+        user: user.first_name,
         otp,
       }),
     }

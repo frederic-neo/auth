@@ -26,8 +26,7 @@ const Login = () => {
         helper.setLocalStorage('ACCESS_TOKEN', response.data.data.token)
         helper.setLocalStorage('REFRESH_TOKEN', response.data.data.refreshToken)
         setLoader(false)
-        navigate('')
-        window.open('http://localhost:3000')
+        navigate('/')
       })
       .catch((err) => {
         if (err.response?.status === 403)

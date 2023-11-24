@@ -32,29 +32,32 @@ const handler = async (event) => {
       })
     }
 
-    const user = await prisma.admin_users.findFirst({
+    const user_account = await prisma.user_account.findFirst({
       where: {
-        id: requestBody.user_id,
+        id: requestBody.user_account_id,
       },
+      include: { user: true },
     })
 
-    if (!user) {
-      return sendResponse(res, 400, {
-        message: 'Invalid User ID',
-      })
+    if (!user_account) {
+      return sendResponse(res, 400, { message: 'Invalid User ID' })
     }
 
     const otp = generateRandomString()
 
     // Store the otp with an expiry stored in env.function in seconds
-    await redis.set(user.id, otp, {
+    if (!redis.isOpen) await redis.connect()
+    await redis.set(`${user_account.id}_otp`, otp, {
       EX: Number(process.env.BB_AUTH_OTP_EXPIRY_TIME_IN_SECONDS),
     })
+    await redis.disconnect()
 
     const emailTemplate = hbs.compile(otpTemp)
 
+    const { user } = user_account
+
     const message = {
-      to: user.email,
+      to: user_account.email,
       from: {
         name: process.env.EMAIL_SENDER_NAME,
         email: process.env.SENDER_EMAIL_ID,
@@ -63,7 +66,7 @@ const handler = async (event) => {
       text: 'Please verify your otp',
       html: emailTemplate({
         logo: process.env.BB_AUTH_LOGO_URL,
-        user: user.full_name,
+        user: user.first_name,
         otp,
       }),
     }

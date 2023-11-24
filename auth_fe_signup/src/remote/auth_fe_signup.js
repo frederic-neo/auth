@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import validation from './services/validation'
 import auth from './services/apis/auth'
 import { useNavigate, Link } from 'react-router-dom'
+import Button from './federated_components/Button/Button'
 import ClosedEye from './closedeye'
 import OpenEye from './openeye'
 import classnames from 'classnames'
@@ -44,6 +45,7 @@ export const Signup = () => {
           setApiError(error?.response?.data?.message)
           formik.setErrors({})
           formik.setTouched({})
+          formik.setSubmitting(false)
           setLoader(false)
         })
     },
@@ -88,6 +90,11 @@ export const Signup = () => {
                     }
                   )}
                 />
+                {formik.errors.first_name && formik.touched.first_name && (
+                  <div className="text-error text-left text-sm first-letter:uppercase bg-white py-1 leading-[17px]">
+                    {formik.errors.first_name}
+                  </div>
+                )}
               </div>
               <div className="mb-6">
                 <label className="text-black font-almost-bold text-sm">Last Name*</label>
@@ -119,6 +126,11 @@ export const Signup = () => {
                     }
                   )}
                 />
+                {formik.errors.last_name && formik.touched.last_name && (
+                  <div className="text-error text-left text-sm first-letter:uppercase bg-white py-1 leading-[17px]">
+                    {formik.errors.last_name}
+                  </div>
+                )}
               </div>
               <div className="mb-6">
                 <label htmlFor="email" className="text-black font-almost-bold text-sm">
@@ -153,6 +165,11 @@ export const Signup = () => {
                       }
                     )}
                   />
+                  {formik.errors.email && formik.touched.email && (
+                    <div className="text-error text-left text-sm first-letter:uppercase bg-white py-1 leading-[17px]">
+                      {formik.errors.email}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="mb-6">
@@ -188,6 +205,11 @@ export const Signup = () => {
                       }
                     )}
                   />
+                  {formik.errors.password && formik.touched.password && (
+                    <div className="text-error text-left text-sm first-letter:uppercase bg-white py-1 leading-[17px]">
+                      {formik.errors.password}
+                    </div>
+                  )}
                   <div
                     className={`absolute w-8 h-full right-1 cursor-pointer ${showPassword ? 'top-7' : 'top-8'}`}
                     onClick={() => setShowPassword(!showPassword)}
@@ -205,16 +227,16 @@ export const Signup = () => {
                     <span>Password must contain at least one upper case.</span>
                     <span>One lower case letter.</span>
                     <span>Password must contain at least one number and special character</span>
-                    {apiError ? (
+                    {apiError && (
                       <div className="absolute bottom-0 left-0 text-error text-left text-sm first-letter:uppercase bg-white py-1 leading-[17px]">
                         {apiError}
                       </div>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               </div>
               <div className="flex flex-col button-wrapper w-full mt-6">
-                <button
+                <Button
                   className="w-full rounded-sm py-3 focus:outline-none mb-6 font-heavy text-white text-md  bg-primary disabled:bg-gray transition-all"
                   type="submit"
                   name="Register"
@@ -223,7 +245,7 @@ export const Signup = () => {
                   isLoading={loader}
                 >
                   Sign Up
-                </button>
+                </Button>
                 <p className="w-full text-sm mb-6 text-grey">
                   Already have an account?
                   <Link

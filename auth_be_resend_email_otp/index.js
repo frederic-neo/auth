@@ -3,11 +3,35 @@ import hbs from 'hbs'
 import otpTemp from './templates/otp-temp.js'
 
 env.init()
+
+/**
+ * @swagger
+ * /auth_be_resend_email_otp:
+ *   post:
+ *     summary: Resend otp for a given email
+ *     description: Resend otp for a given email
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The user's email
+ *                 example: appblocksadmin@mailinator.com
+ *     responses:
+ *       '201':
+ *         description: Created
+ *       '200':
+ *         description: Ok
+ */
+
 const handler = async ({ req, res }) => {
   const {
     getBody,
     sendResponse,
-    codes,
     isEmpty,
     prisma,
     validateRequestMethod,
@@ -31,22 +55,25 @@ const handler = async ({ req, res }) => {
       return
     }
 
-    const user = await prisma.admin_users.findFirst({
+    const user_account = await prisma.user_account.findFirst({
       where: {
         email: requestBody.email,
       },
+      include: { user: true },
     })
 
-    if (!user) {
-      sendResponse(res, 400, {
+    if (!user_account) {
+      return sendResponse(res, 400, {
         message: 'Please enter a valid user id',
       })
-      return
     }
 
+    const { user } = user_account
     const otp = generateRandomString()
     if (!redis.isOpen) await redis.connect()
-    await redis.set(`${user.id}_otp`, otp, { EX: 600 })
+    await redis.set(`${user_account.id}_otp`, otp, {
+      EX: Number(process.env.BB_AUTH_OTP_EXPIRY_TIME_IN_SECONDS),
+    })
     await redis.disconnect()
 
     const emailTemplate = hbs.compile(otpTemp)
@@ -61,7 +88,7 @@ const handler = async ({ req, res }) => {
       text: 'Please verify your otp',
       html: emailTemplate({
         logo: process.env.LOGO_URL,
-        user: user.full_name,
+        user: user.first_name,
         otp,
       }),
     }
