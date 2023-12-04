@@ -8,55 +8,89 @@
   },
   "dependencies": {
     "auth_fe_container": {
-      "directory": "auth_fe_container"
+      "directory": "auth_fe_container",
+      "versionId": "rvYh4w15amLj0EMZpPkyf",
+      "version": "0.0.8"
     },
     "auth_fe_login": {
-      "directory": "auth_fe_login"
+      "directory": "auth_fe_login",
+      "versionId": "LCNY1m-1lpQtcbNNxc7SG",
+      "version": "0.0.8"
     },
     "auth_fe_login_layout": {
-      "directory": "auth_fe_login_layout"
+      "directory": "auth_fe_login_layout",
+      "versionId": "-ilaASfEz21uByUMZwB3-",
+      "version": "0.0.8"
     },
     "auth_be_login": {
-      "directory": "auth_be_login"
+      "directory": "auth_be_login",
+      "versionId": "7Mibw-EvlkdNsiCTyHyz_",
+      "version": "0.0.8"
     },
     "auth_be_shared": {
-      "directory": "auth_be_shared"
+      "directory": "auth_be_shared",
+      "versionId": "NNTU3CbTCrTrbVUfx1-i5",
+      "version": "0.0.8"
     },
     "auth_fe_reset_password": {
-      "directory": "auth_fe_reset_password"
+      "directory": "auth_fe_reset_password",
+      "versionId": "x7Fo6VsqovlsrG2VYlRbe",
+      "version": "0.0.8"
     },
     "auth_be_reset_password": {
-      "directory": "auth_be_reset_password"
+      "directory": "auth_be_reset_password",
+      "versionId": "HGCmzYXKFNQ7IitAdX7j_",
+      "version": "0.0.8"
     },
     "auth_be_verify_email": {
-      "directory": "auth_be_verify_email"
+      "directory": "auth_be_verify_email",
+      "versionId": "iKwyJHys57dlDcwcvHkOZ",
+      "version": "0.0.8"
     },
     "auth_fe_verify_email": {
-      "directory": "auth_fe_verify_email"
+      "directory": "auth_fe_verify_email",
+      "versionId": "TQD3Y6TvBLa15ObePKVYy",
+      "version": "0.0.8"
     },
     "auth_be_send_otp_for_verification": {
-      "directory": "auth_be_send_otp_for_verification"
+      "directory": "auth_be_send_otp_for_verification",
+      "versionId": "qeRGi2Y5SELHu2p6qnKvv",
+      "version": "0.0.8"
     },
     "auth_be_verify_otp": {
-      "directory": "auth_be_verify_otp"
+      "directory": "auth_be_verify_otp",
+      "versionId": "Q2Co7P5yVxxsTAkmktCS_",
+      "version": "0.0.8"
     },
     "auth_fe_forgot_password": {
-      "directory": "auth_fe_forgot_password"
+      "directory": "auth_fe_forgot_password",
+      "versionId": "SM1Psj6NqdwVLP4BzVeKr",
+      "version": "0.0.8"
     },
     "auth_be_forgot_password": {
-      "directory": "auth_be_forgot_password"
+      "directory": "auth_be_forgot_password",
+      "versionId": "w84Ot2EqzkCul2kVTN4GS",
+      "version": "0.0.8"
     },
     "auth_be_signup": {
-      "directory": "auth_be_signup"
+      "directory": "auth_be_signup",
+      "versionId": "FY71xMOK-bFQE5svNhiDi",
+      "version": "0.0.8"
     },
     "auth_fe_signup": {
-      "directory": "auth_fe_signup"
+      "directory": "auth_fe_signup",
+      "versionId": "X_bFlifsfAG7r6zg76445",
+      "version": "0.0.8"
     },
     "auth_fe_verify_otp": {
-      "directory": "auth_fe_verify_otp"
+      "directory": "auth_fe_verify_otp",
+      "versionId": "2x81oLs0mpLleIEXPFGe6",
+      "version": "0.0.8"
     },
     "auth_be_resend_email_otp": {
-      "directory": "auth_be_resend_email_otp"
+      "directory": "auth_be_resend_email_otp",
+      "versionId": "BIQVMT6x-pPXrhI_tj5Bk",
+      "version": "0.0.8"
     }
   },
   "blockId": "mr4XJ9awPyKpXhGJiTnkK",
@@ -65,5 +99,6 @@
   "supportedAppblockVersions": [
     "1.0.0"
   ],
-  "repoType": "mono"
+  "repoType": "mono",
+  "version": "0.0.8"
 }
