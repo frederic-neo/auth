@@ -45,9 +45,9 @@ const RouterMain = () => {
         <Route
           path={LOGIN}
           element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
+            // <PublicRoute>
+            <Login />
+            // </PublicRoute>
           }
         />
         <Route

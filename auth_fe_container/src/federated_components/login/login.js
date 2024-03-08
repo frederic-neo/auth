@@ -16,6 +16,7 @@ const Login = (props) => {
 
   return (
     <>
+      {console.log('test', process.env.BB_AUTH_ELEMENTS_URL)}
       <React.Suspense fallback={''}>
         {errorLoading
           ? `Error loading module "${module}"`

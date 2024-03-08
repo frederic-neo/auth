@@ -1,33 +1,33 @@
-import jwt_decode from "jwt-decode";
+import jwtDecode from 'jwt-decode'
 
 function getLocalStorage(name) {
-  return JSON.parse(localStorage?.getItem(name));
+  return JSON.parse(localStorage?.getItem(name))
 }
 
 function setLocalStorage(name, data) {
-  localStorage.setItem(name, JSON.stringify(data));
+  localStorage.setItem(name, JSON.stringify(data))
 }
 
 function removeLocalStorage(name, data) {
-  localStorage.removeItem(name);
+  localStorage.removeItem(name)
 }
 
 function checkValidUser() {
-  const token = localStorage.getItem("AUTH_DETAILS");
-  let decodedToken;
+  const token = localStorage.getItem('AUTH_DETAILS')
+  let decodedToken
   if (token) {
-    decodedToken = jwt_decode(token);
+    decodedToken = jwtDecode(token)
   }
-  return !!decodedToken?.userId;
+  return !!decodedToken?.userId
 }
 
 function getUserDetails() {
-  const token = localStorage.getItem("AUTH_DETAILS");
-  let decodedToken;
+  const token = localStorage.getItem('AUTH_DETAILS')
+  let decodedToken
   if (token) {
-    decodedToken = jwt_decode(token);
+    decodedToken = jwtDecode(token)
   }
-  return decodedToken;
+  return decodedToken
 }
 
 const helpers = {
@@ -36,6 +36,6 @@ const helpers = {
   checkValidUser,
   getUserDetails,
   removeLocalStorage,
-};
+}
 
-export default helpers;
+export default helpers

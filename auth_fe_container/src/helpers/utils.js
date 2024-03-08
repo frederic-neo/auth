@@ -1,4 +1,4 @@
-import jwt_decode from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 
 export function getLocalStorage(name) {
   return JSON.parse(localStorage?.getItem(name))
@@ -14,7 +14,7 @@ export const isLoggedIn = () => {
   }
 
   // Decode the JWT token
-  const decodedToken = jwt_decode(token)
+  const decodedToken = jwtDecode(token)
 
   // Check if the token is expired
   const now = new Date()

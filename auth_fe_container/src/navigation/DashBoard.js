@@ -1,20 +1,20 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
 
 const Dashboard = () => {
   const navigate = useNavigate()
 
   const logout = () => {
     localStorage.removeItem('REFRESH_TOKEN')
-    navigate('/login')
+    navigate('/')
   }
 
   // Extract the user details from the JWT token
   let user
   const token = localStorage.getItem('REFRESH_TOKEN')
   if (token) {
-    user = jwt_decode(token)
+    user = jwtDecode(token)
     console.log(user)
   }
 
