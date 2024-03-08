@@ -7,7 +7,8 @@ const Dashboard = () => {
 
   const logout = () => {
     localStorage.removeItem('REFRESH_TOKEN')
-    navigate('/')
+    localStorage.removeItem('ACCESS_TOKEN')
+    navigate('/redirect')
   }
 
   // Extract the user details from the JWT token

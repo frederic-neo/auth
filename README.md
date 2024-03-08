@@ -12,7 +12,7 @@ This package block, generated with Appblocks, provides authentication functional
 
 ## Step 1: Configuration
 
-To configure the package, you can use environment variables. These variables can be set in the `.env.functions` file located in the base directory of this package. Below is a table of the default variables that can be used:
+To configure the package, you can use environment variables. These variables can be set in the `.env.functions` file located in the base directory of this package. Refer `.sample.env.function`. Below is a table of the default variables that can be used:
 
 | Variable                           | Description                                | Value                                                                          |
 | ---------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------ |
@@ -39,6 +39,8 @@ Before running the package, make sure the following prerequisites are met:
 - Prisma is installed globally
 - Redis is installed
 - PostgreSQL is installed
+
+or run the docker compose (rest of step 2 can be skipped)
 
 ## Step 2.2: Scripts - Database Migration
 
@@ -76,23 +78,6 @@ After the migration, navigate to the root folder of the package:
 $ bb start
 ```
 
+## Step 3: Setting up the container 
 
-
-### auth_fe_container 
-### auth_fe_login_layout 
-### auth_be_shared 
-
-### auth_fe_login 
-### auth_fe_forgot_password 
-### auth_fe_verify_email 
-### auth_fe_reset_password 
-### auth_fe_signup 
-### auth_fe_verify_otp 
-
-### auth_be_login 
-### auth_be_reset_password 
-### auth_be_verify_email 
-### auth_be_signup 
-### auth_be_send_otp_for_verification 
-### auth_be_verify_otp 
-### auth_be_forgot_password 
+Copy the contents of `auth_fe_container/src` to the main container . make changes to the `navigation/appRoute.js`.

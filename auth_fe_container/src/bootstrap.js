@@ -1,7 +1,30 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import * as React from 'react'
+import { createRoot } from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
+import AuthRouter from './navigation/AuthRouter'
+import AppRoute from './navigation/appRoute'
 
-const Index = () => <App />
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <AppRoute />,
+      },
+      {
+        path: '/*',
+        element: <AppRoute />,
+      },
+      {
+        path: 'auth/*',
+        element: <AuthRouter />,
+      },
+    ],
+  },
+])
 
-ReactDOM.createRoot(document.getElementById('root')).render(<Index />)
+const root = createRoot(document.getElementById('root'))
+root.render(<RouterProvider router={router} />)

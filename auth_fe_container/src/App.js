@@ -1,25 +1,25 @@
 import React from 'react'
-import RouterMain from './navigation/RouterMain'
-import {
-  RouterProvider,
-  createBrowserRouter,
-  Routes,
-  Route,
-  Link,
-} from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Outlet } from 'react-router-dom'
 
-const router = createBrowserRouter([{ path: '*', Component: RouterMain }])
+const App = () => {
+  const handleError = (error, errorInfo) => {
+    // handle error
+    console.log(error, errorInfo)
+  }
 
-export default function App() {
-  return <RouterProvider router={router} />
+  return (
+    <ErrorBoundary fallback={<ErrorFallback />} onError={handleError}>
+      <div className='App' data-testid='app'>
+        <Outlet />
+      </div>
+    </ErrorBoundary>
+  )
 }
 
-// const App = () => {
-//   return (
-//     <div className='min-h-screen w-full'>
-//       <RouterMain />
-//     </div>
-//   )
-// }
+// Provide a fallback UI for the ErrorBoundary component
+function ErrorFallback() {
+  return <div>Something went wrong.</div>
+}
 
-// export default App
+export default App
